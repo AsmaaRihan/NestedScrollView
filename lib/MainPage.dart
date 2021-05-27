@@ -22,6 +22,16 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        floatingActionButton: !_keyboardIsVisible()
+            ? FloatingActionButton(
+                onPressed: () {
+                  print('save');
+                },
+                child: Column(
+                  children: [Text('save'), Icon(Icons.check)],
+                ),
+              )
+            : Container(),
         body: NestedScrollView(
             physics: NeverScrollableScrollPhysics(),
             headerSliverBuilder: (context, isScrolled) {
@@ -32,8 +42,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   snap: false,
                   elevation: 50,
                   backgroundColor: Colors.green,
-                  collapsedHeight: MediaQuery.of(context).size.height * 0.45,
-                  expandedHeight: MediaQuery.of(context).size.height * 0.45,
+                  collapsedHeight: MediaQuery.of(context).size.height * 0.25,
+                  expandedHeight: MediaQuery.of(context).size.height * 0.25,
                   flexibleSpace: FlexibleSpaceBar(), // ProfileView()
                 ),
                 SliverPersistentHeader(
@@ -51,7 +61,19 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 color: Colors.white,
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [Text('Heloo')],
+                    children: [
+                      Text('Hello'),
+                      TextField(
+                        onChanged: (String val) {
+                          print('$val');
+                        },
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            print(_keyboardIsVisible());
+                          },
+                          child: Text('Check Jeybiard')),
+                    ],
                   ),
                 ),
               ),
@@ -80,5 +102,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       indicatorSize: TabBarIndicatorSize.label,
       labelColor: Colors.red,
     );
+  }
+
+  bool _keyboardIsVisible() {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
 }
